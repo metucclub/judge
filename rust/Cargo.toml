@@ -1,0 +1,7 @@
+[package]
+name = "user_submission"
+version = "1.0.0"
+
+[dependencies]
+dmoj = "0.1"
+rand = "0.3"
