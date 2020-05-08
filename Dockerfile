@@ -16,12 +16,15 @@ RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1 && \
     wget \
     curl \
     apt-transport-https \
-    software-properties-common
+    software-properties-common \
+    dirmngr
 
 RUN curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     add-apt-repository 'deb https://apt.dmoj.ca/ buster main' && \
     curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list
+    curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list && \
+    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
@@ -49,6 +52,7 @@ RUN apt-get update -y && \
     mono-complete \
     openjdk-11-jre \
     openjdk-11-jdk \
+    adoptopenjdk-8-hotspot \
     gfortran \
     dart \
     php-common \
@@ -67,11 +71,11 @@ RUN apt-get update -y && \
 
 RUN wget -q -O rustup.sh "https://sh.rustup.rs" && \
     chmod +x rustup.sh && \
-    ./rustup.sh -y --no-modify-path --default-toolchain 1.41.1 && \
+    ./rustup.sh -y --no-modify-path --default-toolchain 1.43.1 && \
     rm rustup.sh && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
-RUN wget -q -O go.tar.gz "https://dl.google.com/go/go1.14.linux-amd64.tar.gz" && \
+RUN wget -q -O go.tar.gz "https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz" && \
     tar -xzf go.tar.gz -C /usr/local && \
     rm go.tar.gz
 
