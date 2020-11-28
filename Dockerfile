@@ -74,7 +74,7 @@ RUN cabal update && cabal install vector
 
 RUN wget -q -O rustup.sh "https://sh.rustup.rs" && \
     chmod +x rustup.sh && \
-    ./rustup.sh -y --no-modify-path --default-toolchain 1.48.0 && \
+    ./rustup.sh -y --no-modify-path --default-toolchain 1.43.1 && \
     rm rustup.sh && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
