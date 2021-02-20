@@ -74,11 +74,11 @@ RUN cabal update && cabal install vector
 
 RUN wget -q -O rustup.sh "https://sh.rustup.rs" && \
     chmod +x rustup.sh && \
-    ./rustup.sh -y --no-modify-path --default-toolchain 1.43.1 && \
+    ./rustup.sh -y --no-modify-path --default-toolchain 1.50.0 && \
     rm rustup.sh && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
-RUN wget -q -O go.tar.gz "https://dl.google.com/go/go1.15.5.linux-amd64.tar.gz" && \
+RUN wget -q -O go.tar.gz "https://dl.google.com/go/go1.15.8.linux-amd64.tar.gz" && \
     tar -xzf go.tar.gz -C /usr/local && \
     rm go.tar.gz
 
@@ -92,7 +92,7 @@ RUN wget -q -O pypy3.tar.bz2 "https://github.com/squeaky-pl/portable-pypy/releas
     mv /usr/local/pypy3.6-7.2.0-linux_x86_64-portable /usr/local/pypy3 && \
     rm pypy3.tar.bz2
 
-RUN wget -q -O kotlin.zip "https://github.com/JetBrains/kotlin/releases/download/v1.4.20/kotlin-compiler-1.4.20.zip" && \
+RUN wget -q -O kotlin.zip "https://github.com/JetBrains/kotlin/releases/download/v1.4.30/kotlin-compiler-1.4.30.zip" && \
     unzip kotlin.zip -d /usr/local && \
     rm kotlin.zip
 
