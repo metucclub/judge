@@ -104,6 +104,8 @@ RUN cargo build
 
 WORKDIR /judge
 
+RUN pip3 install --upgrade pip setuptools wheel
+
 COPY requirements.txt /judge/requirements.txt
 RUN pip3 install -r requirements.txt
 
