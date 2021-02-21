@@ -4,7 +4,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     GOROOT=/usr/local/go \
     GOPATH=/root/go \
-    PATH=$GOPATH/bin:$GOROOT/bin:/usr/local/cargo/bin:$PATH
+    PATH=$GOPATH/bin:$GOROOT/bin:/usr/local/cargo/bin:/root/.cabal/bin:/root/.local/bin:/opt/cabal/3.2/bin:/opt/ghc/8.10.2/bin:$PATH
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1 && \
     apt-get update -y && \
@@ -24,14 +24,18 @@ RUN curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list && \
     wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+    gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 427CB69AAC9D00F2A43CAF1CBA3CBA3FFE22B574 && \
+    gpg --batch --armor --export 427CB69AAC9D00F2A43CAF1CBA3CBA3FFE22B574 > /etc/apt/trusted.gpg.d/haskell.org.gpg.asc && \
+    gpgconf --kill all && \
+    echo 'deb http://downloads.haskell.org/debian buster main' > /etc/apt/sources.list.d/ghc.list
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
     gcc \
     g++ \
-    ghc \
-    cabal-install \
+    ghc-8.10.2 \
+    cabal-install-3.2 \
     xz-utils \
     bzip2 \
     libncurses5 \
@@ -54,6 +58,8 @@ RUN apt-get update -y && \
     openjdk-11-jre \
     openjdk-11-jdk \
     adoptopenjdk-8-hotspot \
+    adoptopenjdk-11-hotspot \
+    adoptopenjdk-15-hotspot \
     gfortran \
     dart \
     php-common \
@@ -74,7 +80,7 @@ RUN cabal update && cabal install vector
 
 RUN wget -q -O rustup.sh "https://sh.rustup.rs" && \
     chmod +x rustup.sh && \
-    ./rustup.sh -y --no-modify-path --default-toolchain 1.50.0 && \
+    ./rustup.sh -y --no-modify-path --default-toolchain 1.47.0 && \
     rm rustup.sh && \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
